@@ -45,6 +45,32 @@ using namespace std;
 	}	
 
 
+
+	void Filter::Print()
+	{
+
+		printf("------------------------------\n");
+		printf("FILTERS\n");
+		printf("\n");
+
+		for (unsigned int i = 0; i < v_FilterChain.size(); ++i)
+		{
+			if(v_FilterChain[i].v_FilterElement.size() != 0)
+				printf("\t%d\n", i);
+
+			for (int j = 0; j < v_FilterChain[i].v_FilterElement.size(); ++j)
+			{
+				printf("\t\t[%f|%f]\n",  v_FilterChain[i].v_FilterElement[j].DownEdge, v_FilterChain[i].v_FilterElement[j].UpEdge);
+			}
+		}
+
+		printf("------------------------------\n");
+
+
+		return;
+	}
+
+
 //===================================================================================
 //LOAD CONFIG
 //===================================================================================

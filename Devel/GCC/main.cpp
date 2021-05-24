@@ -34,8 +34,12 @@ int main(int argc, char const *argv[])
 
 	    			o_Filter->AddFilter(0,2,0);
 	    			o_Filter->AddFilter(4,5,1);
+	    			o_Filter->AddFilter(1,3,1);
+	    			o_Filter->AddFilter(1,3,10);
 
 	    			o_Filter->DoOR = true;
+
+	    			o_Filter->Print();
 
 	    		std::vector<double> v_VecTest = {1,2,3,4,6};
 

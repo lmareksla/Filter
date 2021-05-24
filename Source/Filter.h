@@ -191,10 +191,11 @@ public:
 		void Print_MainTitle();
 		void Print_BasicInfo();
 
+		void Print();
+
 		bool DoLog;
 		fstream *FileLog;
 
-		void Print();
 
 	//===================================================================================
 	//SET AND GET FUCTIONS
