@@ -121,35 +121,32 @@ public:
 
 		void AddFilter(double DownEdge, double UpEdge, int Position);
 
+		//ADD SHOULD ALSO INCLUDE A CHECK ON OVERLAPS AND ORDER - SMALLER TO BIGGER
+
 			
 			bool IndivCheck(double Var, FilterElement o_FilterElement)
 			{
-				printf("\tChecking indiv filter:\t%f,\t%f|%f\n", Var, o_FilterElement.DownEdge, o_FilterElement.UpEdge );
+				//printf("\tChecking indiv filter:\t%f,\t%f|%f\n", Var, o_FilterElement.DownEdge, o_FilterElement.UpEdge );
 				if(Var < o_FilterElement.DownEdge || Var > o_FilterElement.UpEdge) return false;
 				return true;
 			}
 
 		template<class T> bool FilterPass(std::vector<T> v_VarIn)
 		{
-			printf("------------------------------\n");
-			printf("Check filter pass\n");
-			printf("\n");
+			//printf("------------------------------\n");
+			//printf("Check filter pass\n");
+			//printf("\n");
 
 			int MaxSize = (v_VarIn.size() > v_FilterChain.size()) ? v_FilterChain.size() : v_VarIn.size();
 			bool Pass = true;
-
-			cout << "MaxSize:\t" << MaxSize << endl;
 
 			for (int i = 0; i < MaxSize; ++i)
 			{	
 				for (unsigned int j = 0; j < v_FilterChain[i].v_FilterElement.size(); ++j)
 				{
-					cout << "\t" << i << "\t" << j << endl;
-
 					Pass = IndivCheck(static_cast<double> (v_VarIn[i]), v_FilterChain[i].v_FilterElement[j]);
-					if(Pass) printf("\tIndiv filter passed\n");
-					if(DoOR && Pass) 	{printf("Whole filter passed - OR\n");return true;}
-					if(!DoOR && !Pass) 	{printf("Whole filter not passed - AND\n");return false;}
+					if(DoOR && Pass) 	{return true;}
+					if(!DoOR && !Pass) 	{return false;}
 				}
 			}
 

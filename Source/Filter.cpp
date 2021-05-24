@@ -50,8 +50,12 @@ using namespace std;
 	{
 
 		printf("------------------------------\n");
-		printf("FILTERS\n");
+		printf("FILTER\n");
 		printf("\n");
+		if(DoOR) 	printf("Conditions are logically conected as OR\n");
+		else		printf("Conditions are logically conected as AND\n");
+		printf("\n");
+		printf("\tIndex\tCond.\n");
 
 		for (unsigned int i = 0; i < v_FilterChain.size(); ++i)
 		{
@@ -106,8 +110,8 @@ using namespace std;
 
 	void Filter::AddFilter(double DownEdge, double UpEdge, int Position)
 	{
-		printf("-------\n");
-		printf("Add filter: %f, %f, %d\n", DownEdge, UpEdge, Position );
+		//printf("-------\n");
+		//printf("Add filter: %f, %f, %d\n", DownEdge, UpEdge, Position );
 
 		//BASIC CHECK ON POSITION
 
@@ -115,8 +119,8 @@ using namespace std;
 
 		//ADD FILTER CHAIN IF SIZE OF FILTER IS TOO SMALL
 
-			cout << v_FilterChain.size() << endl;
-			cout << Position << endl;
+			//cout << v_FilterChain.size() << endl;
+			//cout << Position << endl;
 
 			if(Position >= v_FilterChain.size()) 
 			{
@@ -134,7 +138,7 @@ using namespace std;
 			o_FilterElement.DownEdge = DownEdge;
 			v_FilterChain[Position].v_FilterElement.push_back(o_FilterElement);
 
-			printf("Add filter done\n");
+			//printf("Add filter done\n");
 
 		return;
 	}
