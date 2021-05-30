@@ -32,12 +32,16 @@ int main(int argc, char const *argv[])
 
 	    		//FILER SPECIFICATION
 
-	    			o_Filter->AddFilter(0,2,0);
-	    			o_Filter->AddFilter(4,5,1);
-	    			o_Filter->AddFilter(1,3,1);
-	    			o_Filter->AddFilter(1,3,10);
+	    			//o_Filter->AddFilter(0,2,0);
+	    			//o_Filter->AddFilter(4,5,1);
+	    			//o_Filter->AddFilter(1,3,1);
+	    			//o_Filter->AddFilter(1,3,10);
 
-	    			o_Filter->DoOR = true;
+	    			o_Filter->AddFilter(1,3,"Energy");
+	    			o_Filter->AddFilter(4,5,"Energy");	    			
+	    			o_Filter->AddFilter(5,6,"Size");
+
+	    			o_Filter->DoOR = false;
 
 	    			o_Filter->Print();
 

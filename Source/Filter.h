@@ -22,6 +22,14 @@ struct FilterElement
 
 struct FilterChain
 {
+	FilterChain()
+	{
+		Name = "";
+	}
+
+	~FilterChain(){;}
+
+	string Name;
 	std::vector<FilterElement> v_FilterElement;
 };
 
@@ -120,6 +128,7 @@ public:
 		//int NMaxFilterChain;
 
 		void AddFilter(double DownEdge, double UpEdge, int Position);
+		void AddFilter(double DownEdge, double UpEdge, string Name);
 
 		//ADD SHOULD ALSO INCLUDE A CHECK ON OVERLAPS AND ORDER - SMALLER TO BIGGER
 

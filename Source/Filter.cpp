@@ -49,7 +49,7 @@ using namespace std;
 	void Filter::Print()
 	{
 
-		printf("------------------------------\n");
+		printf("===========================================================\n");
 		printf("FILTER\n");
 		printf("\n");
 		if(DoOR) 	printf("Conditions are logically conected as OR\n");
@@ -60,15 +60,24 @@ using namespace std;
 		for (unsigned int i = 0; i < v_FilterChain.size(); ++i)
 		{
 			if(v_FilterChain[i].v_FilterElement.size() != 0)
-				printf("\t%d\n", i);
-
-			for (int j = 0; j < v_FilterChain[i].v_FilterElement.size(); ++j)
 			{
-				printf("\t\t[%f|%f]\n",  v_FilterChain[i].v_FilterElement[j].DownEdge, v_FilterChain[i].v_FilterElement[j].UpEdge);
+				printf("\t%d", i);
+
+				if(v_FilterChain[i].Name.size() != 0) printf("|%s", v_FilterChain[i].Name.c_str() );
+				
+				printf("\n");
+
+				for (unsigned int j = 0; j < v_FilterChain[i].v_FilterElement.size(); ++j)
+				{
+					printf("\t\t[%f|%f]\n",  v_FilterChain[i].v_FilterElement[j].DownEdge, v_FilterChain[i].v_FilterElement[j].UpEdge);
+				}
+
 			}
+				
+
 		}
 
-		printf("------------------------------\n");
+		printf("===========================================================\n");
 
 
 		return;
@@ -113,9 +122,9 @@ using namespace std;
 		//printf("-------\n");
 		//printf("Add filter: %f, %f, %d\n", DownEdge, UpEdge, Position );
 
-		//BASIC CHECK ON POSITION
+		//BASIC CHECK ON POSITION adn DOWN AND UP EDGE
 
-			if(Position < 0) {printf("[ERROR]\tAdd filter failed!\n"); return;}
+			if(Position < 0 || UpEdge < DownEdge) {printf("[ERROR]\tAdd filter failed!\n"); return;}
 
 		//ADD FILTER CHAIN IF SIZE OF FILTER IS TOO SMALL
 
@@ -143,7 +152,38 @@ using namespace std;
 		return;
 	}
 
+	void Filter::AddFilter(double DownEdge, double UpEdge, string Name)
+	{
+		//BASIC CHECK ON POSITION adn DOWN AND UP EDGE
 
+			if(UpEdge < DownEdge || Name.size() == 0) {printf("[ERROR]\tAdd filter failed!\n"); return;}
+
+		FilterElement o_FilterElement;
+		o_FilterElement.DownEdge = DownEdge;
+		o_FilterElement.UpEdge = UpEdge;
+
+		//ADD
+
+			for (unsigned int i = 0; i < v_FilterChain.size(); ++i)
+			{
+				if(!Name.compare(v_FilterChain[i].Name))
+				{
+					v_FilterChain[i].v_FilterElement.push_back(o_FilterElement);
+					return;					
+				}
+			}
+
+		//IF NO MATCH -> CREATE NEW CHAIN
+
+			FilterChain o_FilterChain;
+			o_FilterChain.Name = Name;
+			o_FilterChain.v_FilterElement.push_back(o_FilterElement);
+
+			v_FilterChain.push_back(o_FilterChain);
+
+		return;
+
+	}
 
 
 //===================================================================================
