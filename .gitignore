@@ -1,6 +1,7 @@
-
+Build
+_Build
 Devel/GCC/Filter
-
 Devel/GCC/LogFile.txt
-
 *_cpp*
+Filtering
+LogFile.txt
