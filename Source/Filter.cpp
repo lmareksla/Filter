@@ -48,37 +48,39 @@ using namespace std;
 
 	void Filter::Print()
 	{
+		string PrintOut = "\n";
 
-		printf("===========================================================\n");
-		printf("FILTER\n");
-		printf("\n");
-		if(DoOR) 	printf("Conditions are logically conected as OR\n");
-		else		printf("Conditions are logically conected as AND\n");
-		printf("\n");
-		printf("\tIndex\tCond.\n");
+		PrintOut +="===========================================================\n";
+		PrintOut +="FILTER\n";
+		PrintOut +="\n";
+		if(DoOR) 	PrintOut +="Conditions are logically conected as OR for different elements (within as AND)\n";
+		else		PrintOut +="Conditions are logically conected as AND for different elements (within as AND)\n";
+		PrintOut +="\n";
+		PrintOut +="\tIndex\tCond.\n";
 
 		for (unsigned int i = 0; i < v_FilterChain.size(); ++i)
 		{
 			if(v_FilterChain[i].v_FilterElement.size() != 0)
 			{
-				printf("\t%d", i);
+				PrintOut +="\t" + to_string(i);
 
-				if(v_FilterChain[i].Name.size() != 0) printf("|%s", v_FilterChain[i].Name.c_str() );
+				if(v_FilterChain[i].Name.size() != 0) PrintOut += "|" + v_FilterChain[i].Name ;
 				
-				printf("\n");
+				PrintOut +="\n";
 
 				for (unsigned int j = 0; j < v_FilterChain[i].v_FilterElement.size(); ++j)
 				{
-					printf("\t\t[%f|%f]\n",  v_FilterChain[i].v_FilterElement[j].DownEdge, v_FilterChain[i].v_FilterElement[j].UpEdge);
+					PrintOut +="\t\t[" + to_string(v_FilterChain[i].v_FilterElement[j].DownEdge)  + "|" + to_string(v_FilterChain[i].v_FilterElement[j].UpEdge) + "]\n";
 				}
-
 			}
-				
-
 		}
 
-		printf("===========================================================\n");
+		PrintOut +="===========================================================\n";
 
+		PrintOut += "\n";
+
+		if (DoPrintOut) printf("%s\n", PrintOut.c_str());
+		if (DoLog) *FileLog << PrintOut << endl;
 
 		return;
 	}
@@ -92,8 +94,9 @@ using namespace std;
 	{
 
 		FileConfig->Read();
-		FileConfig->Print();
+		//FileConfig->Print();
 
+		/*
 		//INPUT
 
 			if(FileConfig->IsParInSection("FileIn_Path","Input")) 		FileIn_Path = FileConfig->FindParInSection("FileIn_Path", "Input").v_ValStr[0];
@@ -104,9 +107,29 @@ using namespace std;
 			if(FileConfig->IsParInSection("FileOut_Path","Output")) 	FileOut_Path = FileConfig->FindParInSection("FileOut_Path", "Output").v_ValStr[0];
 			if(FileConfig->IsParInSection("FileOut_Name","Output")) 	FileOut_Name = FileConfig->FindParInSection("FileOut_Name", "Output").v_ValStr[0];
 			
-		//MIAN SETTINGS
+		*/
 
-			//...
+		//MAIN SETTINGS
+
+			for (unsigned int i = 0; i < FileConfig->v_Section.size(); ++i)
+			{
+				Section* o_Section = FileConfig->v_Section[i];
+
+				string FilterName = o_Section->KeyName;
+
+				for (unsigned int j = 0; j < o_Section->v_Par.size(); ++j)
+				{
+					Par o_Par = o_Section->v_Par[j];
+
+					if(o_Par.v_ValNum.size() >= 2)
+					{
+						double UpEdge = o_Par.v_ValNum[1];
+						double DownEdge =  o_Par.v_ValNum[0];	
+
+						AddFilter(DownEdge, UpEdge, FilterName);
+					}
+				}
+			}
 
 		return;
 	}
@@ -183,6 +206,12 @@ using namespace std;
 
 		return;
 
+	}
+
+	void Filter::Reset()
+	{
+		v_FilterChain.clear();
+		return;
 	}
 
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#PATH_HIST_File="/run/media/lukasm/74C5DAE971A67238/Soubory/Programy/Vlastni/c++/aplikace/advacam/Processing/Hist/Source/"
-PATH_SIG_VEC="/run/media/lukasm/74C5DAE971A67238/Soubory/Programy/Vlastni/c++/aplikace/advacam/Processing/SigVec/Source/"
+#PATH_HIST_File="/mnt/MainDisk/Soubory/Programy/Vlastni/c++/aplikace/DataProcessing/Processing/Hist/Source/"
+PATH_SIG_VEC="/mnt/MainDisk/Soubory/Programy/Vlastni/c++/aplikace/DataProcessing/Processing/SigVec/Source/"
 
 #INIT PRECOMP
 	
@@ -16,8 +16,8 @@ PATH_SIG_VEC="/run/media/lukasm/74C5DAE971A67238/Soubory/Programy/Vlastni/c++/ap
 
 #COMPILE
 	
-	GEN_FUNC_Compile=$PATH_SIG_VEC"GenFunc.cpp"	
-	INI_FILE_Compile=$PATH_SIG_VEC"INI_File.cpp"
+	GEN_FUNC_Compile="/mnt/MainDisk/Soubory/Programy/Vlastni/c++/aplikace/GenLib/Source/GenFunc.cpp"	
+	INI_FILE_Compile="/mnt/MainDisk/Soubory/Programy/Vlastni/c++/aplikace/INI_File/Source/INI_File.cpp"
 	FILTER_Compile="../../Source/Filter.cpp"
 
 	#DF_Compile="$PATH_DF/Pixel.cpp $PATH_DF/Cluster.cpp $PATH_DF/ClusterAnalysis.cpp $PATH_DF/Clusterer.cpp $PATH_DF/ClusterList.cpp $PATH_DF/DataFile.cpp " 

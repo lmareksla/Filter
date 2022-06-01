@@ -31,6 +31,18 @@ struct FilterChain
 
 	string Name;
 	std::vector<FilterElement> v_FilterElement;
+
+	void Print()
+	{
+		printf("-------\n");
+		printf("%s\n", Name.c_str() );
+		for (unsigned int i = 0; i < v_FilterElement.size(); ++i)
+		{
+			printf("[%f,%f]", v_FilterElement[i].DownEdge, v_FilterElement[i].UpEdge );
+		}
+		printf("\n-------\n");
+		return;
+	}
 };
 
 
@@ -52,10 +64,10 @@ public:
 			//Load_Config();
 		}
 
-		Filter(string con_FileConfig_Path, string con_FileConfig_Name)
+		Filter(string con_FileConfig_Path, string con_FileConfig_Name, bool DoStanAlone = true)
 		{
 			Init();
-			Init_PrintOut_Log();
+			if(DoStanAlone)Init_PrintOut_Log();
 
 			FileConfig = new INI_File(con_FileConfig_Path, con_FileConfig_Name);
 			Load_Config();
@@ -103,7 +115,11 @@ public:
 
 		~Filter()
 		{
-			Delete_CheckNull(FileLog);
+			if(FileLog != nullptr && FileLog->is_open())
+			{
+				FileLog->close();
+				delete FileLog;
+			}
 			Delete_CheckNull(FileConfig);
 		}
 		
@@ -142,10 +158,6 @@ public:
 
 		template<class T> bool FilterPass(std::vector<T> v_VarIn)
 		{
-			//printf("------------------------------\n");
-			//printf("Check filter pass\n");
-			//printf("\n");
-
 			int MaxSize = (v_VarIn.size() > v_FilterChain.size()) ? v_FilterChain.size() : v_VarIn.size();
 			bool Pass = true;
 
@@ -155,13 +167,16 @@ public:
 				{
 					Pass = IndivCheck(static_cast<double> (v_VarIn[i]), v_FilterChain[i].v_FilterElement[j]);
 					if(DoOR && Pass) 	{return true;}
-					if(!DoOR && !Pass) 	{return false;}
+					if(!DoOR && Pass) 	{break;}
 				}
+				if(!DoOR && !Pass) 	{return false;}
 			}
 
 			if(DoOR) return false;
 			return true;
 		}
+
+		void Reset();
 
 
 	//===================================================================================
@@ -215,7 +230,8 @@ public:
 
 		void Set_DoPrintOut(bool set_DoPrintOut){DoPrintOut = set_DoPrintOut; return;}
 		void Set_DoLog(bool set_DoLog){DoLog = set_DoLog; return;}
-		
+		void Set_FileLog(fstream* set_FileLog){ FileLog = set_FileLog; return;}
+
 	//===================================================================================
 	
 };
