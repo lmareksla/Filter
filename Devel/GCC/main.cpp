@@ -1,4 +1,3 @@
-#include "../../Source/PreComp.cpp"
 #include "../../Source/Headers.h"
 #include "../../Source/Filter.h"
 
